@@ -25,11 +25,15 @@ describe('CaracolService', () => {
   });
 
   it('should call apiService.getCaracol with correct n', () => {
-    const mockMatrix = [[1, 2, 3], [8, 9, 4], [7, 6, 5]];
-    apiServiceMock.getCaracol.and.returnValue(of(mockMatrix));
+    const mockResponse = {
+      matrix: [[1, 2, 3], [8, 9, 4], [7, 6, 5]],
+      diagonal: [1, 9, 5],
+      diagonalInversa: [3, 9, 7]
+    };
+    apiServiceMock.getCaracol.and.returnValue(of(mockResponse));
 
     service.getMatrix(3).subscribe(matrix => {
-      expect(matrix).toEqual(mockMatrix);
+      expect(matrix).toEqual([[1, 2, 3], [8, 9, 4], [7, 6, 5]]);
       expect(apiServiceMock.getCaracol).toHaveBeenCalledWith(3);
     });
   });

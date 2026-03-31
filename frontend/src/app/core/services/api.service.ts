@@ -9,7 +9,7 @@ export class ApiService {
   private http = inject(HttpClient);
   private baseUrl = 'http://localhost:3000';
 
-  getCaracol(n: number): Observable<number[][]> {
-    return this.http.get<number[][]>(`${this.baseUrl}/caracol/${n}`);
+  getCaracol(n: number): Observable<{matrix: number[][], diagonal: number[], diagonalInversa: number[]}> {
+    return this.http.get<{matrix: number[][], diagonal: number[], diagonalInversa: number[]}>(`${this.baseUrl}/caracol/${n}`);
   }
 }
