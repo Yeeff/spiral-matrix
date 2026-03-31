@@ -1,14 +1,18 @@
 import { CaracolService } from './interfaces/caracol.interface';
+import { validateN } from './validateN';
 
 export const caracolService: CaracolService = {
-  generateCaracol(n: number): number[][] {
-    const matrix: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
+  generateCaracol(n: any): number[][] {
+    
+    const num = validateN(n);
+
+    const matrix: number[][] = Array.from({ length: num }, () => Array(num).fill(0));
 
     let counter = 1;
     let top = 0;
-    let bottom = n - 1;
+    let bottom = num - 1;
     let left = 0;
-    let right = n - 1;
+    let right = num - 1;
 
     while (top <= bottom && left <= right) {
       

@@ -1,17 +1,19 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { caracolService } from '../services/caracol.service';
+import { AppError } from '../middleware/AppError';
+import { ERROR_MESSAGES } from '../config/messages';
 
-export const getCaracol = (req: Request, res: Response): void => {
-  const nParam = req.params.n;
-  const n = typeof nParam === 'string' ? parseInt(nParam, 10) : parseInt(nParam[0], 10);
+export const getCaracol = (req: Request, res: Response, next: NextFunction): void => {
 
-  if (isNaN(n) || n < 3 || n > 15) {
-    res.status(400).json({
-      error: 'El parámetro debe ser un número entero entre 3 y 15'
-    });
+  if (!req.params.n) {
+    next(new AppError(ERROR_MESSAGES.REQUIRED, 400));
     return;
   }
 
-  const matrix = caracolService.generateCaracol(n);
-  res.json(matrix);
+  try {
+    const matrix = caracolService.generateCaracol(req.params.n);
+    res.json(matrix);
+  } catch (error) {
+    next(error);
+  }
 };

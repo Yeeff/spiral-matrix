@@ -1,3 +1,3 @@
 export interface CaracolService {
-  generateCaracol(n: number): number[][];
+  generateCaracol(n: any): number[][];
 }
