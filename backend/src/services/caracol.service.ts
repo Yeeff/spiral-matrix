@@ -1,8 +1,8 @@
-import { CaracolService } from './interfaces/caracol.interface';
+import { CaracolService, CaracolResponse } from './interfaces/caracol.interface';
 import { validateN } from './validateN';
 
 export const caracolService: CaracolService = {
-  generateCaracol(n: any): number[][] {
+  generateCaracol(n: any): CaracolResponse {
     
     const num = validateN(n);
 
@@ -41,6 +41,15 @@ export const caracolService: CaracolService = {
       }
     }
 
-    return matrix;
+    // Extract diagonals
+    const diagonal: number[] = [];
+    const diagonalInversa: number[] = [];
+    
+    for (let i = 0; i < num; i++) {
+      diagonal.push(matrix[i][i]);
+      diagonalInversa.push(matrix[i][num - 1 - i]);
+    }
+
+    return { matrix, diagonal, diagonalInversa };
   }
 };

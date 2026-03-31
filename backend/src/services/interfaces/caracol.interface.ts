@@ -1,3 +1,9 @@
+export interface CaracolResponse {
+  matrix: number[][];
+  diagonal: number[];
+  diagonalInversa: number[];
+}
+
 export interface CaracolService {
-  generateCaracol(n: any): number[][];
+  generateCaracol(n: any): CaracolResponse;
 }
