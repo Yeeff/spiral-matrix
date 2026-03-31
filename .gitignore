@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log
+yarn-error.log
+
+# IDE
+.vscode/
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.history/
+
+# Angular
+.angular/cache
+.sass-cache/
+coverage/
+libpeerconnection.log
+testem.log
+typings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# NPM
+package-lock.json
+
+# Miscellaneous
+connect.lock

@@ -1,0 +1,57 @@
+<div class="container">
+  <h1>Matriz Caracol</h1>
+  
+  <div class="input-section">
+    <label for="nInput">Ingresa un número (3-15):</label>
+    <input 
+      type="number" 
+      id="nInput" 
+      [(ngModel)]="n" 
+      min="3" 
+      max="15"
+      placeholder="3"
+      (keyup.enter)="generateMatrix()"
+    />
+    <button (click)="generateMatrix()" [disabled]="loading">
+      {{ loading ? 'Cargando...' : 'Generar Matriz' }}
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div class="matrix-section">
+    <div *ngIf="!matrix && !loading" class="placeholder">
+      Aquí aparecerá la matriz
+    </div>
+
+    <div *ngIf="loading" class="placeholder">
+      Cargando...
+    </div>
+
+    <div *ngIf="matrix" class="matrix-container">
+      <div class="matrix-grid">
+        <div *ngFor="let row of matrix; let i = index" class="matrix-row">
+          <div *ngFor="let cell of row; let j = index" 
+               class="matrix-cell"
+               [class.diagonal-principal]="i === j"
+               [class.diagonal-inversa]="i + j === (n || 0) - 1">
+            {{ cell }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="diagonals-info" *ngIf="diagonal.length > 0">
+        <div class="diagonal-section">
+          <h3>Diagonal Principal</h3>
+          <p>{{ diagonal.join(', ') }}</p>
+        </div>
+        <div class="diagonal-section">
+          <h3>Diagonal Inversa</h3>
+          <p>{{ diagonalInversa.join(', ') }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
