@@ -1,0 +1,26 @@
+<div class="container">
+  <h1>Matriz Caracol</h1>
+  
+  <div class="input-section">
+    <label for="nInput">Ingresa un número (3-15):</label>
+    <input 
+      type="number" 
+      id="nInput" 
+      [(ngModel)]="n" 
+      min="3" 
+      max="15"
+      placeholder="3"
+    />
+    <button (click)="generateMatrix()">Generar Matriz</button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div class="matrix-section">
+    <div *ngIf="!matrix" class="placeholder">
+      Aquí aparecerá la matriz
+    </div>
+  </div>
+</div>
