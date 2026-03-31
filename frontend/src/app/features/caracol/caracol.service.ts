@@ -19,4 +19,8 @@ export class CaracolService {
       map(response => response.matrix)
     );
   }
+
+  getFullResponse(n: number): Observable<CaracolResponse> {
+    return this.apiService.getCaracol(n);
+  }
 }

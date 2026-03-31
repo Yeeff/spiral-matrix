@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CaracolService } from './caracol.service';
+import { CaracolService, CaracolResponse } from './caracol.service';
 
 @Component({
   selector: 'app-caracol',
@@ -14,7 +14,10 @@ export class CaracolComponent {
   private caracolService = inject(CaracolService);
   
   n: number | null = null;
+  response: CaracolResponse | null = null;
   matrix: number[][] | null = null;
+  diagonal: number[] = [];
+  diagonalInversa: number[] = [];
   error: string = '';
   loading: boolean = false;
 
@@ -33,9 +36,12 @@ export class CaracolComponent {
     }
 
     this.loading = true;
-    this.caracolService.getMatrix(this.n).subscribe({
+    this.caracolService.getFullResponse(this.n).subscribe({
       next: (data) => {
-        this.matrix = data;
+        this.response = data;
+        this.matrix = data.matrix;
+        this.diagonal = data.diagonal;
+        this.diagonalInversa = data.diagonalInversa;
         this.loading = false;
       },
       error: (err) => {

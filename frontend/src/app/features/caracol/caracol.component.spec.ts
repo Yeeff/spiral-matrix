@@ -11,7 +11,7 @@ describe('CaracolComponent', () => {
   let caracolServiceMock: jasmine.SpyObj<CaracolService>;
 
   beforeEach(() => {
-    caracolServiceMock = jasmine.createSpyObj('CaracolService', ['getMatrix']);
+    caracolServiceMock = jasmine.createSpyObj('CaracolService', ['getMatrix', 'getFullResponse']);
 
     TestBed.configureTestingModule({
       imports: [CommonModule, FormsModule, CaracolComponent],
@@ -50,19 +50,25 @@ describe('CaracolComponent', () => {
   });
 
   it('should call service and set matrix when n is valid', () => {
-    const mockMatrix = [[1, 2, 3], [8, 9, 4], [7, 6, 5]];
-    caracolServiceMock.getMatrix.and.returnValue(of(mockMatrix));
+    const mockResponse = {
+      matrix: [[1, 2, 3], [8, 9, 4], [7, 6, 5]],
+      diagonal: [1, 9, 5],
+      diagonalInversa: [3, 9, 7]
+    };
+    caracolServiceMock.getFullResponse.and.returnValue(of(mockResponse));
 
     component.n = 3;
     component.generateMatrix();
 
-    expect(caracolServiceMock.getMatrix).toHaveBeenCalledWith(3);
-    expect(component.matrix).toEqual(mockMatrix);
+    expect(caracolServiceMock.getFullResponse).toHaveBeenCalledWith(3);
+    expect(component.matrix).toEqual(mockResponse.matrix);
+    expect(component.diagonal).toEqual(mockResponse.diagonal);
+    expect(component.diagonalInversa).toEqual(mockResponse.diagonalInversa);
     expect(component.error).toBe('');
   });
 
   it('should handle service error', () => {
-    caracolServiceMock.getMatrix.and.returnValue(throwError(() => new Error('Error')));
+    caracolServiceMock.getFullResponse.and.returnValue(throwError(() => new Error('Error')));
 
     component.n = 5;
     component.generateMatrix();
@@ -72,9 +78,12 @@ describe('CaracolComponent', () => {
   });
 
   it('should set loading to true while fetching', () => {
-    const mockMatrix = [[1, 2], [4, 3]];
-    // Use delay to make the observable async so loading stays true during fetch
-    caracolServiceMock.getMatrix.and.returnValue(of(mockMatrix).pipe(delay(0)));
+    const mockResponse = {
+      matrix: [[1, 2], [4, 3]],
+      diagonal: [1, 3],
+      diagonalInversa: [2, 4]
+    };
+    caracolServiceMock.getFullResponse.and.returnValue(of(mockResponse).pipe(delay(0)));
 
     expect(component.loading).toBe(false);
 

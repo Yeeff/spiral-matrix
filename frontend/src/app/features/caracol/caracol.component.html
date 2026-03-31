@@ -30,10 +30,26 @@
       Cargando...
     </div>
 
-    <div *ngIf="matrix" class="matrix-grid">
-      <div *ngFor="let row of matrix" class="matrix-row">
-        <div *ngFor="let cell of row" class="matrix-cell">
-          {{ cell }}
+    <div *ngIf="matrix" class="matrix-container">
+      <div class="matrix-grid">
+        <div *ngFor="let row of matrix; let i = index" class="matrix-row">
+          <div *ngFor="let cell of row; let j = index" 
+               class="matrix-cell"
+               [class.diagonal-principal]="i === j"
+               [class.diagonal-inversa]="i + j === (n || 0) - 1">
+            {{ cell }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="diagonals-info" *ngIf="diagonal.length > 0">
+        <div class="diagonal-section">
+          <h3>Diagonal Principal</h3>
+          <p>{{ diagonal.join(', ') }}</p>
+        </div>
+        <div class="diagonal-section">
+          <h3>Diagonal Inversa</h3>
+          <p>{{ diagonalInversa.join(', ') }}</p>
         </div>
       </div>
     </div>
