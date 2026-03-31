@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CaracolService } from './caracol.service';
 
 @Component({
   selector: 'app-caracol',
@@ -10,9 +11,12 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './caracol.component.css'
 })
 export class CaracolComponent {
+  private caracolService = inject(CaracolService);
+  
   n: number | null = null;
   matrix: number[][] | null = null;
   error: string = '';
+  loading: boolean = false;
 
   generateMatrix(): void {
     this.error = '';
@@ -28,7 +32,16 @@ export class CaracolComponent {
       return;
     }
 
-    // UI only - backend connection coming later
-    this.error = 'Conexión con backend pendiente';
+    this.loading = true;
+    this.caracolService.getMatrix(this.n).subscribe({
+      next: (data) => {
+        this.matrix = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Error al conectar con el servidor';
+        this.loading = false;
+      }
+    });
   }
 }

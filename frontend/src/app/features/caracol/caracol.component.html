@@ -10,8 +10,11 @@
       min="3" 
       max="15"
       placeholder="3"
+      (keyup.enter)="generateMatrix()"
     />
-    <button (click)="generateMatrix()">Generar Matriz</button>
+    <button (click)="generateMatrix()" [disabled]="loading">
+      {{ loading ? 'Cargando...' : 'Generar Matriz' }}
+    </button>
   </div>
 
   <div *ngIf="error" class="error-message">
@@ -19,8 +22,20 @@
   </div>
 
   <div class="matrix-section">
-    <div *ngIf="!matrix" class="placeholder">
+    <div *ngIf="!matrix && !loading" class="placeholder">
       Aquí aparecerá la matriz
+    </div>
+
+    <div *ngIf="loading" class="placeholder">
+      Cargando...
+    </div>
+
+    <div *ngIf="matrix" class="matrix-grid">
+      <div *ngFor="let row of matrix" class="matrix-row">
+        <div *ngFor="let cell of row" class="matrix-cell">
+          {{ cell }}
+        </div>
+      </div>
     </div>
   </div>
 </div>
